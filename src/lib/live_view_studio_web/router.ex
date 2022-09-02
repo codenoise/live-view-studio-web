@@ -8,6 +8,7 @@ defmodule LiveViewStudioWeb.Router do
     plug :put_root_layout, {LiveViewStudioWeb.LayoutView, :root}
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug LiveViewStudioWeb.AssignSession
   end
 
   pipeline :api do
