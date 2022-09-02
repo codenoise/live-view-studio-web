@@ -1,17 +1,11 @@
 defmodule LiveViewStudioWeb.LightLive do
   use LiveViewStudioWeb, :live_view
 
-  alias LiveViewStudio.{Presence, LightServer}
+  alias LiveViewStudio.LightServer
 
   def mount(_params, %{"session_id" => session_id}, socket) do
     if connected?(socket) do
-      {:ok, _} = Presence.track(self(), "live_view_studio:presence", session_id, %{
-        session_id: session_id,
-        joined_at: :os.system_time(:seconds)
-      })
-
-      LightServer.subscribe(session_id)
-
+      LightServer.subscribe(socket, session_id)
     end
 
     assigns = [
@@ -22,9 +16,9 @@ defmodule LiveViewStudioWeb.LightLive do
     {:ok, assign(socket, assigns)}
   end
 
-  def render(assigns) do
-    Phoenix.View.render(LiveViewStudioWeb.PageView, "light.html", assigns)
-  end
+  # def render(assigns) do
+  #   Phoenix.View.render(LiveViewStudioWeb.PageView, "light.html", assigns)
+  # end
 
   def handle_event("on", _, socket) do
     LightServer.set_brightness(socket.assigns.session_id, 100)

@@ -17,7 +17,13 @@ defmodule LiveViewStudio.LightServer do
     GenServer.start_link(__MODULE__, opts, name: __MODULE__)
   end
 
-  def subscribe(session_id), do: Phoenix.PubSub.subscribe(PubSub, "light_level:#{session_id}")
+  def subscribe(socket, session_id) do
+    {:ok, _} = LiveViewStudio.Presence.track(self(), "live_view_studio:presence", session_id, %{
+      session_id: session_id,
+      joined_at: :os.system_time(:seconds)
+    })
+    Phoenix.PubSub.subscribe(PubSub, "light_level:#{session_id}")
+  end
 
   def set_brightness(session_id, brightness) do
     GenServer.cast(__MODULE__, {:set_brightness, session_id, brightness})
