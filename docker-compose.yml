@@ -1,0 +1,34 @@
+version: '3.4'
+
+volumes:
+  postgres_data: {}
+  mix_cache: {}
+  npm_cache: {}
+
+services:
+  app:
+    stdin_open: true
+    tty: true
+    build:
+     context: src
+     dockerfile: ../docker/app/Dockerfile
+    env_file: docker/local.env
+    user: 'deploy'
+    command:
+      - mix
+      - phx.server
+    volumes:
+      - ./src:/home/deploy/app:cached
+      - mix_cache:/home/deploy/.mix:cached
+    depends_on:
+      - db
+    ports:
+      - 4000:4000
+
+  db:
+    image: postgres:12.8-alpine
+    user: 'postgres'
+    restart: always
+    env_file: ./docker/local.env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data:cached
