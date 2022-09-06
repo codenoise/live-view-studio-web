@@ -15,9 +15,13 @@ defmodule LiveViewStudio.Application do
       # Start the PubSub system
       {Phoenix.PubSub, name: LiveViewStudio.PubSub},
       # Start the Endpoint (http/https)
-      LiveViewStudioWeb.Endpoint
+      LiveViewStudioWeb.Endpoint,
       # Start a worker by calling: LiveViewStudio.Worker.start_link(arg)
       # {LiveViewStudio.Worker, arg}
+      # Start the Presence system
+      LiveViewStudio.Presence,
+      # GenServer to manage shared brightness
+      LiveViewStudio.LightServer
     ]
 
     # See https://hexdocs.pm/elixir/Supervisor.html
