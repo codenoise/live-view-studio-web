@@ -5,10 +5,6 @@ defmodule LiveViewStudioWeb.LightLive do
     {:ok, assign(socket, :brightness, 10)}
   end
 
-  def render(assigns) do
-    Phoenix.View.render(LiveViewStudioWeb.PageView, "light.html", assigns)
-  end
-
   def handle_event("on", _, socket) do
     {:noreply, assign(socket, :brightness, 100)}
   end
