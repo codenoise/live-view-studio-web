@@ -1,5 +1,8 @@
 import Config
 
+# Only in tests, remove the complexity from the password hashing algorithm
+config :bcrypt_elixir, :log_rounds, 1
+
 # Configure your database
 #
 # The MIX_TEST_PARTITION environment variable can be used
@@ -7,8 +10,8 @@ import Config
 # Run `mix help test` for more information.
 config :live_view_studio, LiveViewStudio.Repo,
   username: "postgres",
-  password: "postgres",
-  hostname: "localhost",
+  password: "123Secure",
+  hostname: "db",
   database: "live_view_studio_test#{System.get_env("MIX_TEST_PARTITION")}",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10
