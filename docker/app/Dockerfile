@@ -6,7 +6,7 @@ RUN mkdir -p ${APP_ROOT}
 
 ARG DEPLOY_USER='deploy'
 
-RUN apk --update add inotify-tools nodejs npm bash
+RUN apk --update add inotify-tools nodejs npm bash alpine-sdk erlang-dev
 
 RUN addgroup -g 1000 -S ${DEPLOY_USER} && \
     adduser -u 1000 -S ${DEPLOY_USER} -G ${DEPLOY_USER}
