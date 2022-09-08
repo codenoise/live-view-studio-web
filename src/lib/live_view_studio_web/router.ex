@@ -92,4 +92,24 @@ defmodule LiveViewStudioWeb.Router do
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
   end
+
+  scope "/houses", LiveViewStudioWeb do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live "/", HouseLive.Index, :index
+    live "/new", HouseLive.Index, :new
+    live "/:id/edit", HouseLive.Index, :edit
+    live "/:id", HouseLive.Show, :show
+    live "/:id/show/edit", HouseLive.Show, :edit
+
+    scope "/:house_id/lights" do
+
+      live "/", LightLive.Index, :index
+      live "/new", LightLive.Index, :new
+      live "/:id/edit", LightLive.Index, :edit
+      live "/:id", LightLive.Show, :show
+      live "/:id/show/edit", LightLive.Show, :edit
+    end
+  end
+
 end

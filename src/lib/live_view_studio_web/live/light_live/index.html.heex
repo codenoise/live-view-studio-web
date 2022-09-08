@@ -1,0 +1,42 @@
+<h1>Listing <%= @house.name %> Lights</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <.modal return_to={Routes.light_index_path(@socket, :index, @house)}>
+    <.live_component
+      module={LiveViewStudioWeb.LightLive.FormComponent}
+      id={@light.id || :new}
+      title={@page_title}
+      action={@live_action}
+      light={@light}
+      return_to={Routes.light_index_path(@socket, :index, @house)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Brightness</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="lights">
+    <%= for light <- @lights do %>
+      <tr id={"light-#{light.id}"}>
+        <td><%= light.name %></td>
+        <td><%= light.brightness %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.light_show_path(@socket, :show, @house, light) %></span>
+          <span><%= live_patch "Edit", to: Routes.light_index_path(@socket, :edit, @house, light) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: light.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Light", to: Routes.light_index_path(@socket, :new, @house), class: "button" %></span> |
+<span><%= live_patch "Back to House", to: Routes.house_show_path(@socket, :show, @house) %></span>

@@ -1,0 +1,36 @@
+<h1>Show House</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.house_show_path(@socket, :show, @house)}>
+    <.live_component
+      module={LiveViewStudioWeb.HouseLive.FormComponent}
+      id={@house.id}
+      title={@page_title}
+      action={@live_action}
+      house={@house}
+      return_to={Routes.house_show_path(@socket, :show, @house)}
+    />
+  </.modal>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="houses">
+      <tr id={"house-#{@house.id}"}>
+        <td><%= @house.name %></td>
+
+        <td>
+          <span><%= live_redirect "Lights", to: Routes.light_index_path(@socket, :index, @house) %></span>
+        </td>
+      </tr>
+  </tbody>
+</table>
+
+<span><%= live_patch "Edit", to: Routes.house_show_path(@socket, :edit, @house), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.house_index_path(@socket, :index) %></span>

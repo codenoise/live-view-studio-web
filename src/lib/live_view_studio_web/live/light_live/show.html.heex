@@ -1,0 +1,41 @@
+<h1>Show Light</h1>
+
+<%= if @live_action in [:edit] do %>
+  <.modal return_to={Routes.light_show_path(@socket, :show, @house, @light)}>
+    <.live_component
+      module={LiveViewStudioWeb.LightLive.FormComponent}
+      id={@light.id}
+      title={@page_title}
+      action={@live_action}
+      light={@light}
+      return_to={Routes.light_show_path(@socket, :show, @house, @light)}
+    />
+  </.modal>
+<% end %>
+
+<h1><%= @light.name %> Light</h1>
+<div class="meter">
+  <span style={"width: #{@brightness}%"}>
+    <%= @brightness %>%
+  </span>
+</div>
+
+<button phx-click="off">
+  Off
+</button>
+
+<button phx-click="down">
+  Down
+</button>
+
+<button phx-click="up">
+  Up
+</button>
+
+<button phx-click="on">
+  On
+</button>
+
+
+<span><%= live_patch "Edit", to: Routes.light_show_path(@socket, :edit, @house, @light), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.light_index_path(@socket, :index, @house) %></span>
